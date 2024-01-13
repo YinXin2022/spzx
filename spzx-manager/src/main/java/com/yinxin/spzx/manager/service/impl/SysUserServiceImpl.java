@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.yinxin.common.contest.RedisContest;
 import com.yinxin.common.exception.AppException;
 import com.yinxin.common.redis.RedisCache;
+import com.yinxin.common.utils.AuthContextUtil;
 import com.yinxin.spzx.manager.mapper.SysUserMapper;
 import com.yinxin.spzx.manager.service.SysUserService;
 import com.yinxin.spzx.model.dto.system.LoginDto;
@@ -48,5 +49,15 @@ public class SysUserServiceImpl implements SysUserService {
         redisCache.setCacheObject(RedisContest.SYS_LOGIN_USER + token, sysUser,30, TimeUnit.MINUTES);
         redisCache.deleteObject(RedisContest.SYS_LOGIN_VALIDATE_CODE + loginDto.getCodeKey());
         return LoginVo.build(token,null);
+    }
+
+    @Override
+    public SysUser getUserInfo(String token) {
+        return AuthContextUtil.get();
+    }
+
+    @Override
+    public void logout(String token) {
+        redisCache.deleteObject(RedisContest.SYS_LOGIN_USER + token);
     }
 }
