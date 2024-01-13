@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.yinxin.common.contest.RedisContest;
 import com.yinxin.common.exception.AppException;
 import com.yinxin.common.redis.RedisCache;
+import com.yinxin.common.utils.AssertUtil;
 import com.yinxin.common.utils.AuthContextUtil;
 import com.yinxin.spzx.manager.mapper.SysUserMapper;
 import com.yinxin.spzx.manager.service.SysUserService;
@@ -33,22 +34,16 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public LoginVo login(LoginDto loginDto) {
         String validateCode = redisCache.getCacheObject(RedisContest.SYS_LOGIN_VALIDATE_CODE + loginDto.getCodeKey(), String.class);
-        if (StrUtil.isEmpty(validateCode) || !StrUtil.equalsIgnoreCase(validateCode, loginDto.getCaptcha())) {
-            throw new AppException(ResultCodeEnum.VALIDATECODE_ERROR);
-        }
+        AssertUtil.isTrueThrow(StrUtil.isEmpty(validateCode) || !StrUtil.equalsIgnoreCase(validateCode, loginDto.getCaptcha()), () -> new AppException(ResultCodeEnum.VALIDATECODE_ERROR));
 
         SysUser sysUser = sysUserMapper.getByUsername(loginDto.getUserName());
-        if (sysUser == null) {
-            throw new AppException(ResultCodeEnum.LOGIN_ERROR);
-        }
-        if (!sysUser.getPassword().equals(DigestUtils.md5DigestAsHex(loginDto.getPassword().getBytes()))) {
-            throw new AppException(ResultCodeEnum.LOGIN_ERROR);
-        }
+        AssertUtil.isTrueThrow(sysUser == null, () -> new AppException(ResultCodeEnum.LOGIN_ERROR));
+        AssertUtil.isFalseThrow(sysUser.getPassword().equals(DigestUtils.md5DigestAsHex(loginDto.getPassword().getBytes())), () -> new AppException(ResultCodeEnum.LOGIN_ERROR));
 
         String token = UUID.randomUUID().toString().replaceAll("-", "");
-        redisCache.setCacheObject(RedisContest.SYS_LOGIN_USER + token, sysUser,30, TimeUnit.MINUTES);
+        redisCache.setCacheObject(RedisContest.SYS_LOGIN_USER + token, sysUser, 30, TimeUnit.MINUTES);
         redisCache.deleteObject(RedisContest.SYS_LOGIN_VALIDATE_CODE + loginDto.getCodeKey());
-        return LoginVo.build(token,null);
+        return LoginVo.build(token, null);
     }
 
     @Override
