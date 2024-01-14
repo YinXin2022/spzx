@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result error(Exception e) {
+        e.printStackTrace();
         return Result.build(null, 500, e.getMessage());
     }
 
     @ExceptionHandler(AppException.class)
     public Result error(AppException e) {
+        e.printStackTrace();
         return Result.build(null, e.getResultCodeEnum());
     }
 }
