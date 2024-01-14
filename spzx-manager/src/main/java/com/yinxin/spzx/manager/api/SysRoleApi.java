@@ -25,8 +25,29 @@ public class SysRoleApi {
     @Operation(summary = "分页查询角色")
     @PostMapping("/page/{pageNum}/{pageSize}")
     public Result<PageInfo<SysRole>> pageBy(@RequestBody SysRoleDto queryDto,
-                                           @PathVariable(value = "pageNum") Integer pageNum,
-                                           @PathVariable(value = "pageSize") Integer pageSize) {
+                                            @PathVariable(value = "pageNum") Integer pageNum,
+                                            @PathVariable(value = "pageSize") Integer pageSize) {
         return Result.build(sysRoleService.page(queryDto, pageNum, pageSize), ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "添加角色")
+    @PostMapping("/create")
+    public Result createBy(@RequestBody SysRole sysRole) {
+        sysRoleService.create(sysRole);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "修改角色")
+    @PutMapping("/update")
+    public Result updateBy(@RequestBody SysRole sysRole) {
+        sysRoleService.update(sysRole);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "删除角色")
+    @DeleteMapping("/delete/{id}")
+    public Result deleteBy(@PathVariable Long id) {
+        sysRoleService.delete(id);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }

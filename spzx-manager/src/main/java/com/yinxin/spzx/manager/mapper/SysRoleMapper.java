@@ -13,4 +13,10 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper {
     List<SysRole> pageAllByName(SysRoleDto sysRoleDto);
+
+    void insert(SysRole sysRole);
+
+    void update(SysRole sysRole);
+
+    void delete(Long id);
 }

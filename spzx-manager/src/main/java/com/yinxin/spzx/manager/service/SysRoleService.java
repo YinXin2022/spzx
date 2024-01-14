@@ -12,4 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface SysRoleService {
     PageInfo<SysRole> page(SysRoleDto sysRoleDto, Integer pageNum, Integer pageSize);
+
+    void create(SysRole sysRole);
+
+    void update(SysRole sysRole);
+
+    void delete(Long id);
 }

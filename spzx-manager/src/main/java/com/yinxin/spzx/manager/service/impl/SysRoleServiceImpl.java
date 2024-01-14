@@ -29,4 +29,22 @@ public class SysRoleServiceImpl implements SysRoleService {
         PageInfo<SysRole> pageInfo = new PageInfo(sysRoleList);
         return pageInfo;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void create(SysRole sysRole) {
+        sysRoleMapper.insert(sysRole);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(SysRole sysRole) {
+        sysRoleMapper.update(sysRole);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Long id) {
+        sysRoleMapper.delete(id);
+    }
 }
