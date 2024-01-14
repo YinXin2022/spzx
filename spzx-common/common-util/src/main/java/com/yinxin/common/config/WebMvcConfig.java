@@ -2,6 +2,7 @@ package com.yinxin.common.config;
 
 import com.yinxin.common.interceptor.LoginInterceptor;
 import com.yinxin.common.utils.IocUtil;
+import com.yinxin.common.utils.MinIoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -43,5 +44,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @ConditionalOnMissingBean
     IocUtil iocUtil() {
         return IocUtil.getInstance();
+    }
+
+    @Bean
+    @Lazy(value = false)
+    @ConditionalOnMissingBean
+    MinIoUtil minIoUtil() {
+        return MinIoUtil.getInstance();
     }
 }
