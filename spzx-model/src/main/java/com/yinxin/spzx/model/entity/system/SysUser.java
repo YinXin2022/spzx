@@ -3,6 +3,7 @@ package com.yinxin.spzx.model.entity.system;
 import com.yinxin.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.util.DigestUtils;
 
 @Data
 @Schema(description = "系统用户实体类")
@@ -29,4 +30,7 @@ public class SysUser extends BaseEntity {
 	@Schema(description = "状态（1：正常 0：停用）")
 	private Integer status;
 
+	public void md5Password() {
+		this.password = DigestUtils.md5DigestAsHex(this.password.getBytes());
+	}
 }

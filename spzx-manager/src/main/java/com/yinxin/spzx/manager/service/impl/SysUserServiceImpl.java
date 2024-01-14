@@ -1,14 +1,18 @@
 package com.yinxin.spzx.manager.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yinxin.common.contest.RedisContest;
 import com.yinxin.common.exception.AppException;
 import com.yinxin.common.redis.RedisCache;
 import com.yinxin.common.utils.AssertUtil;
 import com.yinxin.common.utils.AuthContextUtil;
+import com.yinxin.common.utils.MinIoUtil;
 import com.yinxin.spzx.manager.mapper.SysUserMapper;
 import com.yinxin.spzx.manager.service.SysUserService;
 import com.yinxin.spzx.model.dto.system.LoginDto;
+import com.yinxin.spzx.model.dto.system.SysUserDto;
 import com.yinxin.spzx.model.entity.system.SysUser;
 import com.yinxin.spzx.model.vo.common.ResultCodeEnum;
 import com.yinxin.spzx.model.vo.system.LoginVo;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -54,5 +59,45 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void logout(String token) {
         redisCache.deleteObject(RedisContest.SYS_LOGIN_USER + token);
+    }
+
+    @Override
+    public PageInfo<SysUser> pageBy(SysUserDto sysUserDto, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<SysUser> sysUsers = sysUserMapper.pageAllByNameAndCreateTime(sysUserDto);
+        PageInfo pageInfo = new PageInfo(sysUsers);
+        return pageInfo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void create(SysUser sysUser) {
+        SysUser user = sysUserMapper.getByUsername(sysUser.getUserName());
+        AssertUtil.isTrueThrow(user != null, () -> new AppException(ResultCodeEnum.USER_NAME_IS_EXISTS));
+
+        sysUser.md5Password();
+        sysUser.setStatus(1);
+        sysUserMapper.insert(sysUser);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(SysUser sysUser, boolean predicate) {
+        if (!predicate) {
+            SysUser user = sysUserMapper.getByUsername(sysUser.getUserName());
+            AssertUtil.isTrueThrow(user != null, () -> new AppException(ResultCodeEnum.USER_NAME_IS_EXISTS));
+        }
+
+        SysUser user = sysUserMapper.getById(sysUser.getId());
+        sysUserMapper.update(sysUser);
+        MinIoUtil.removeFile(user.getAvatar());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Long id) {
+        SysUser user = sysUserMapper.getById(id);
+        sysUserMapper.deleteById(id);
+        MinIoUtil.removeFile(user.getAvatar());
     }
 }

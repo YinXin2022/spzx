@@ -1,6 +1,8 @@
 package com.yinxin.spzx.manager.service;
 
+import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.model.dto.system.LoginDto;
+import com.yinxin.spzx.model.dto.system.SysUserDto;
 import com.yinxin.spzx.model.entity.system.SysUser;
 import com.yinxin.spzx.model.vo.system.LoginVo;
 import org.springframework.stereotype.Service;
@@ -16,4 +18,12 @@ public interface SysUserService {
     SysUser getUserInfo(String token);
 
     void logout(String token);
+
+    PageInfo<SysUser> pageBy(SysUserDto sysUserDto, Integer pageNum, Integer pageSize);
+
+    void create(SysUser sysUser);
+
+    void update(SysUser sysUser, boolean predicate);
+
+    void delete(Long id);
 }
