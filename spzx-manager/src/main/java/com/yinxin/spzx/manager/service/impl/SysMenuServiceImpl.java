@@ -45,6 +45,21 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Transactional(rollbackFor = Exception.class)
     public void create(SysMenu sysMenu) {
         sysMenuMapper.insert(sysMenu);
+
+        // 新添加一个菜单，那么此时就需要将该菜单所对应的父级菜单设置为半开
+        updateSysRoleMenuIsHalf(sysMenu);
+    }
+
+    private void updateSysRoleMenuIsHalf(SysMenu sysMenu) {
+        // 查询是否存在父节点
+        SysMenu parentMenu = sysMenuMapper.findById(sysMenu.getParentId());
+
+        if (parentMenu != null) {
+            // 将该id的菜单设置为半开
+            sysRoleMenuMapper.updateSysRoleMenuIsHalf(parentMenu.getId());
+            // 递归调用
+            updateSysRoleMenuIsHalf(parentMenu);
+        }
     }
 
     @Override
