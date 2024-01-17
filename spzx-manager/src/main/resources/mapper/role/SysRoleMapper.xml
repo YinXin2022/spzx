@@ -5,11 +5,9 @@
 <mapper namespace="com.yinxin.spzx.manager.mapper.SysRoleMapper">
     <!--  映射查询到的字段 -->
     <resultMap id="sysRoleMap" type="com.yinxin.spzx.model.entity.system.SysRole" autoMapping="true"></resultMap>
-
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
-        id
-        ,role_name,role_code,description,create_time,update_time,is_deleted
+        id,role_name,role_code,description,create_time,update_time,is_deleted
     </sql>
 
     <sql id="findPageWhere">
@@ -41,12 +39,14 @@
         <if test="description != null and description != ''">
             description = #{description},
         </if>
-        update_time =  now()
+        update_time = now()
         where
         id = #{id}
     </update>
     <delete id="delete">
-        update sys_role set is_deleted=1 where id=#{roleId}
+        update sys_role
+        set is_deleted=1
+        where id = #{roleId}
     </delete>
 
     <select id="pageAllByName" resultMap="sysRoleMap">
@@ -55,5 +55,11 @@
         from sys_role
         <include refid="findPageWhere"/>
         order by id desc
+    </select>
+
+    <select id="findAll" resultMap="sysRoleMap">
+        select
+        <include refid="columns"/>
+        from sys_role where is_deleted = 0
     </select>
 </mapper>

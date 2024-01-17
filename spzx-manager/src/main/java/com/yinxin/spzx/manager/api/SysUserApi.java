@@ -2,6 +2,7 @@ package com.yinxin.spzx.manager.api;
 
 import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.manager.service.SysUserService;
+import com.yinxin.spzx.model.dto.system.AssginRoleDto;
 import com.yinxin.spzx.model.dto.system.SysUserDto;
 import com.yinxin.spzx.model.entity.system.SysUser;
 import com.yinxin.spzx.model.vo.common.Result;
@@ -33,14 +34,20 @@ public class SysUserApi {
     }
 
     @PutMapping("/update/{predicate}")
-    public Result updateBy(@RequestBody SysUser sysUser,@PathVariable boolean predicate) {
-        sysUserService.update(sysUser,predicate);
+    public Result updateBy(@RequestBody SysUser sysUser, @PathVariable boolean predicate) {
+        sysUserService.update(sysUser, predicate);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 
     @DeleteMapping("/delete/{id}")
     public Result deleteBy(@PathVariable Long id) {
         sysUserService.delete(id);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @PostMapping("/addRoles")
+    public Result addRolesBy(@RequestBody AssginRoleDto assginRoleDto) {
+        sysUserService.addRoles(assginRoleDto);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }

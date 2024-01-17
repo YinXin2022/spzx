@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author YinXin
  * @date 2024-01-13 14:56
@@ -49,5 +51,17 @@ public class SysRoleApi {
     public Result deleteBy(@PathVariable Long id) {
         sysRoleService.delete(id);
         return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "查询所有角色")
+    @GetMapping("/list")
+    public Result<List<SysRole>> list() {
+        return Result.build(sysRoleService.list(), ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "查询指定用户的角色")
+    @GetMapping("/list/{userId}")
+    public Result<List<SysRole>> listBy(@PathVariable Long userId) {
+        return Result.build(sysRoleService.listByUserId(userId), ResultCodeEnum.SUCCESS);
     }
 }

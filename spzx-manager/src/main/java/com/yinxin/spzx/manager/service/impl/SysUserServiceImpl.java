@@ -9,8 +9,10 @@ import com.yinxin.common.redis.RedisCache;
 import com.yinxin.common.utils.AssertUtil;
 import com.yinxin.common.utils.AuthContextUtil;
 import com.yinxin.common.utils.MinIoUtil;
+import com.yinxin.spzx.manager.mapper.SysRoleUserMapper;
 import com.yinxin.spzx.manager.mapper.SysUserMapper;
 import com.yinxin.spzx.manager.service.SysUserService;
+import com.yinxin.spzx.model.dto.system.AssginRoleDto;
 import com.yinxin.spzx.model.dto.system.LoginDto;
 import com.yinxin.spzx.model.dto.system.SysUserDto;
 import com.yinxin.spzx.model.entity.system.SysUser;
@@ -34,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class SysUserServiceImpl implements SysUserService {
     private final SysUserMapper sysUserMapper;
+    private final SysRoleUserMapper sysRoleUserMapper;
     private final RedisCache redisCache;
 
     @Override
@@ -99,5 +102,13 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = sysUserMapper.getById(id);
         sysUserMapper.deleteById(id);
         MinIoUtil.removeFile(user.getAvatar());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addRoles(AssginRoleDto assginRoleDto) {
+        sysRoleUserMapper.deleteByUserId(assginRoleDto.getUserId());
+
+        assginRoleDto.getRoleIdList().forEach(x -> sysRoleUserMapper.insert(assginRoleDto.getUserId(), x));
     }
 }
