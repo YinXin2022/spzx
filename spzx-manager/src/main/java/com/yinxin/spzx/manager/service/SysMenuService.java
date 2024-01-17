@@ -1,6 +1,7 @@
 package com.yinxin.spzx.manager.service;
 
 import com.yinxin.spzx.model.entity.system.SysMenu;
+import com.yinxin.spzx.model.vo.system.SysMenuVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface SysMenuService {
     void delete(Long id);
 
     Map<String,Object> findMenuByRoleId(Long roleId);
+
+    List<SysMenuVo> findUserMenuList();
 }

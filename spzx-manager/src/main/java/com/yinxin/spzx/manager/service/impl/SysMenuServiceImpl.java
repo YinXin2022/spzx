@@ -3,17 +3,21 @@ package com.yinxin.spzx.manager.service.impl;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import com.yinxin.common.exception.AppException;
 import com.yinxin.common.utils.AssertUtil;
+import com.yinxin.common.utils.AuthContextUtil;
 import com.yinxin.common.utils.MenuUtil;
 import com.yinxin.spzx.manager.mapper.SysMenuMapper;
 import com.yinxin.spzx.manager.mapper.SysRoleMenuMapper;
 import com.yinxin.spzx.manager.service.SysMenuService;
 import com.yinxin.spzx.model.entity.system.SysMenu;
+import com.yinxin.spzx.model.entity.system.SysUser;
 import com.yinxin.spzx.model.vo.common.ResultCodeEnum;
+import com.yinxin.spzx.model.vo.system.SysMenuVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,5 +67,30 @@ public class SysMenuServiceImpl implements SysMenuService {
         result.put("sysMenuList", list());
         result.put("roleMenuIds", sysRoleMenuMapper.findByRoleId(roleId));
         return result;
+    }
+
+    @Override
+    public List<SysMenuVo> findUserMenuList() {
+        SysUser sysUser = AuthContextUtil.get();
+        Long userId = sysUser.getId();
+
+        List<SysMenu> sysMenuList = sysMenuMapper.selectListByUserId(userId);
+        List<SysMenu> sysMenuTreeList = MenuUtil.buildTree(sysMenuList);
+        return this.buildMenus(sysMenuTreeList);
+    }
+
+    private List<SysMenuVo> buildMenus(List<SysMenu> menus) {
+        List<SysMenuVo> sysMenuVoList = new LinkedList<SysMenuVo>();
+        for (SysMenu sysMenu : menus) {
+            SysMenuVo sysMenuVo = new SysMenuVo();
+            sysMenuVo.setTitle(sysMenu.getTitle());
+            sysMenuVo.setName(sysMenu.getComponent());
+            List<SysMenu> children = sysMenu.getChildren();
+            if (!CollectionUtils.isEmpty(children)) {
+                sysMenuVo.setChildren(buildMenus(children));
+            }
+            sysMenuVoList.add(sysMenuVo);
+        }
+        return sysMenuVoList;
     }
 }

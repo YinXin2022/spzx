@@ -1,16 +1,20 @@
 package com.yinxin.spzx.manager.api;
 
+import com.yinxin.spzx.manager.service.SysMenuService;
 import com.yinxin.spzx.manager.service.SysUserService;
 import com.yinxin.spzx.manager.service.ValidateCodeService;
 import com.yinxin.spzx.model.dto.system.LoginDto;
 import com.yinxin.spzx.model.entity.system.SysUser;
 import com.yinxin.spzx.model.vo.common.Result;
 import com.yinxin.spzx.model.vo.common.ResultCodeEnum;
+import com.yinxin.spzx.model.vo.system.SysMenuVo;
 import com.yinxin.spzx.model.vo.system.ValidateCodeVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author YinXin
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class IndexApi {
     private final SysUserService sysUserService;
     private final ValidateCodeService validateCodeService;
+    private final SysMenuService sysMenuService;
 
     @Operation(summary = "登录接口")
     @PostMapping("/login")
@@ -47,5 +52,11 @@ public class IndexApi {
     public Result logout(@RequestHeader String token) {
         sysUserService.logout(token);
         return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "获取用户菜单")
+    @GetMapping("/menus")
+    public Result<List<SysMenuVo>> menus() {
+        return Result.build(sysMenuService.findUserMenuList(), ResultCodeEnum.SUCCESS) ;
     }
 }
