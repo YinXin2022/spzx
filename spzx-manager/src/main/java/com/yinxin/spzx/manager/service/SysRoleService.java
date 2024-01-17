@@ -1,6 +1,7 @@
 package com.yinxin.spzx.manager.service;
 
 import com.github.pagehelper.PageInfo;
+import com.yinxin.spzx.model.dto.system.AssignMenuDto;
 import com.yinxin.spzx.model.dto.system.SysRoleDto;
 import com.yinxin.spzx.model.entity.system.SysRole;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,6 @@ public interface SysRoleService {
     List<SysRole> list();
 
     List<SysRole> listByUserId(Long userId);
+
+    void addMenus(AssignMenuDto assignMenuDto);
 }

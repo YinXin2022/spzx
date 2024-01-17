@@ -4,6 +4,7 @@ import com.yinxin.spzx.model.entity.system.SysMenu;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YinXin
@@ -18,4 +19,6 @@ public interface SysMenuService {
     void update(SysMenu sysMenu);
 
     void delete(Long id);
+
+    Map<String,Object> findMenuByRoleId(Long roleId);
 }

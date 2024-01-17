@@ -2,6 +2,7 @@ package com.yinxin.spzx.manager.api;
 
 import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.manager.service.SysRoleService;
+import com.yinxin.spzx.model.dto.system.AssignMenuDto;
 import com.yinxin.spzx.model.dto.system.SysRoleDto;
 import com.yinxin.spzx.model.entity.system.SysRole;
 import com.yinxin.spzx.model.vo.common.Result;
@@ -63,5 +64,12 @@ public class SysRoleApi {
     @GetMapping("/list/{userId}")
     public Result<List<SysRole>> listBy(@PathVariable Long userId) {
         return Result.build(sysRoleService.listByUserId(userId), ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "分配菜单")
+    @PostMapping("/addMenus")
+    public Result addMenus(@RequestBody AssignMenuDto assignMenuDto) {
+        sysRoleService.addMenus(assignMenuDto);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }

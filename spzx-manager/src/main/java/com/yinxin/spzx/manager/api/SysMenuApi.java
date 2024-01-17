@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YinXin
@@ -47,5 +48,11 @@ public class SysMenuApi {
     public Result deleteById(@PathVariable Long id) {
         sysMenuService.delete(id);
         return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "查询指定角色菜单")
+    @GetMapping(value = "/list/{roleId}")
+    public Result<Map<String, Object>> findMenuBy(@PathVariable Long roleId) {
+        return Result.build(sysMenuService.findMenuByRoleId(roleId), ResultCodeEnum.SUCCESS);
     }
 }

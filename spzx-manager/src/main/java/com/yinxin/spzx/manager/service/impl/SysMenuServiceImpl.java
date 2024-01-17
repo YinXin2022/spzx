@@ -5,6 +5,7 @@ import com.yinxin.common.exception.AppException;
 import com.yinxin.common.utils.AssertUtil;
 import com.yinxin.common.utils.MenuUtil;
 import com.yinxin.spzx.manager.mapper.SysMenuMapper;
+import com.yinxin.spzx.manager.mapper.SysRoleMenuMapper;
 import com.yinxin.spzx.manager.service.SysMenuService;
 import com.yinxin.spzx.model.entity.system.SysMenu;
 import com.yinxin.spzx.model.vo.common.ResultCodeEnum;
@@ -12,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YinXin
@@ -23,6 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysMenuServiceImpl implements SysMenuService {
     private final SysMenuMapper sysMenuMapper;
+    private final SysRoleMenuMapper sysRoleMenuMapper;
+
 
     @Override
     public List<SysMenu> list() {
@@ -50,5 +55,13 @@ public class SysMenuServiceImpl implements SysMenuService {
         int count = sysMenuMapper.countByParentId(id);
         AssertUtil.isTrueThrow(count > 0, () -> new AppException(ResultCodeEnum.NODE_ERROR));
         sysMenuMapper.deleteById(id);
+    }
+
+    @Override
+    public Map<String, Object> findMenuByRoleId(Long roleId) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("sysMenuList", list());
+        result.put("roleMenuIds", sysRoleMenuMapper.findByRoleId(roleId));
+        return result;
     }
 }
