@@ -93,7 +93,9 @@ public class SysUserServiceImpl implements SysUserService {
 
         SysUser user = sysUserMapper.getById(sysUser.getId());
         sysUserMapper.update(sysUser);
-        MinIoUtil.removeFile(user.getAvatar());
+        if (!StrUtil.isEmpty(sysUser.getAvatar())) {
+            MinIoUtil.removeFile(user.getAvatar());
+        }
     }
 
     @Override
