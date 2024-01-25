@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.model.entity.product.Brand;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author YinXin
  * @date 2024-01-19 13:27
@@ -17,4 +19,6 @@ public interface SysBrandService {
     void update(Brand brand);
 
     void delete(Long id);
+
+    List<Brand> all();
 }

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author YinXin
  * @date 2024-01-19 13:28
@@ -50,5 +52,10 @@ public class SysBrandServiceImpl implements SysBrandService {
         Brand b = sysBrandMapper.findById(id);
         sysBrandMapper.deleteById(id);
         MinIoUtil.removeFile(b.getLogo());
+    }
+
+    @Override
+    public List<Brand> all() {
+        return sysBrandMapper.findAll();
     }
 }

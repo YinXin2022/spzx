@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author YinXin
  * @date 2024-01-19 13:27
@@ -46,5 +48,11 @@ public class BrandApi {
     public Result deleteBy(@PathVariable Long id) {
         sysBrandService.delete(id);
         return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "获取所有品牌")
+    @GetMapping("/all")
+    public Result<List<Brand>> allBy() {
+        return Result.build(sysBrandService.all(), ResultCodeEnum.SUCCESS);
     }
 }
