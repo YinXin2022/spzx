@@ -1,6 +1,7 @@
 package com.yinxin.spzx.manager.mapper;
 
 import com.yinxin.spzx.model.entity.product.Brand;
+import com.yinxin.spzx.model.filter.BrandFilter;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Mapper
 public interface SysBrandMapper {
 
-    List<Brand> findAll();
+    List<Brand> pageByFilter(BrandFilter filter);
 
     void save(Brand brand);
 

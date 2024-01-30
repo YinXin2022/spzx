@@ -3,6 +3,7 @@ package com.yinxin.spzx.manager.api;
 import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.manager.service.SysBrandService;
 import com.yinxin.spzx.model.entity.product.Brand;
+import com.yinxin.spzx.model.filter.BrandFilter;
 import com.yinxin.spzx.model.vo.common.Result;
 import com.yinxin.spzx.model.vo.common.ResultCodeEnum;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +25,9 @@ public class BrandApi {
     private final SysBrandService sysBrandService;
 
     @Operation(summary = "获取品牌列表")
-    @GetMapping("/page/{pageNum}/{pageSize}")
-    public Result<PageInfo<Brand>> pageBy(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
-        return Result.build(sysBrandService.page(pageNum, pageSize), ResultCodeEnum.SUCCESS);
+    @PostMapping("/page/{pageNum}/{pageSize}")
+    public Result<PageInfo<Brand>> pageBy(@PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestBody BrandFilter filter) {
+        return Result.build(sysBrandService.page(pageNum, pageSize, filter), ResultCodeEnum.SUCCESS);
     }
 
     @Operation(summary = "创建品牌")
@@ -48,11 +49,5 @@ public class BrandApi {
     public Result deleteBy(@PathVariable Long id) {
         sysBrandService.delete(id);
         return Result.build(null, ResultCodeEnum.SUCCESS);
-    }
-
-    @Operation(summary = "获取所有品牌")
-    @GetMapping("/all")
-    public Result<List<Brand>> allBy() {
-        return Result.build(sysBrandService.all(), ResultCodeEnum.SUCCESS);
     }
 }

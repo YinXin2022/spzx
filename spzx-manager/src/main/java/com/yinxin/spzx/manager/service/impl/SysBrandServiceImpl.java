@@ -7,6 +7,7 @@ import com.yinxin.common.utils.MinIoUtil;
 import com.yinxin.spzx.manager.mapper.SysBrandMapper;
 import com.yinxin.spzx.manager.service.SysBrandService;
 import com.yinxin.spzx.model.entity.product.Brand;
+import com.yinxin.spzx.model.filter.BrandFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +26,9 @@ public class SysBrandServiceImpl implements SysBrandService {
 
 
     @Override
-    public PageInfo<Brand> page(Integer pageNum, Integer pageSize) {
+    public PageInfo<Brand> page(Integer pageNum, Integer pageSize, BrandFilter filter) {
         PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(sysBrandMapper.findAll());
+        return new PageInfo<>(sysBrandMapper.pageByFilter(filter));
     }
 
     @Override
@@ -52,10 +53,5 @@ public class SysBrandServiceImpl implements SysBrandService {
         Brand b = sysBrandMapper.findById(id);
         sysBrandMapper.deleteById(id);
         MinIoUtil.removeFile(b.getLogo());
-    }
-
-    @Override
-    public List<Brand> all() {
-        return sysBrandMapper.findAll();
     }
 }

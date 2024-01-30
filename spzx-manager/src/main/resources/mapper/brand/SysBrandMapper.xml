@@ -47,11 +47,16 @@
         where id = #{id}
     </delete>
 
-    <select id="findAll" resultMap="brandMap">
+    <select id="pageByFilter" resultMap="brandMap">
         select
         <include refid="columns"/>
         from brand
-        where is_deleted = 0
+        <where>
+            <if test="categoryId != '' and categoryId != null">
+                and category_id = #{filter.categoryId}
+            </if>
+            and is_deleted = 0
+        </where>
         order by id desc
     </select>
 
