@@ -5,10 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.manager.mapper.SysCategoryBrandMapper;
 import com.yinxin.spzx.manager.service.SysCategoryBrandService;
 import com.yinxin.spzx.model.dto.product.CategoryBrandDto;
+import com.yinxin.spzx.model.entity.product.Brand;
 import com.yinxin.spzx.model.entity.product.CategoryBrand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author YinXin
@@ -42,5 +45,10 @@ public class SysCategoryBrandServiceImpl implements SysCategoryBrandService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
         sysCategoryBrandMapper.delete(id);
+    }
+
+    @Override
+    public List<Brand> findBrandByCategoryId(Long categoryId) {
+        return sysCategoryBrandMapper.findBrandByCategoryId(categoryId);
     }
 }

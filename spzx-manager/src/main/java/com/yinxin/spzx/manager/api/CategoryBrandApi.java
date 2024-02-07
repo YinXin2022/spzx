@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author YinXin
  * @date 2024-01-25 16:37
@@ -48,5 +50,12 @@ public class CategoryBrandApi {
     public Result deleteBy(@PathVariable Long id) {
         sysCategoryBrandService.delete(id);
         return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "根据分类id获取品牌列表")
+    @GetMapping("/findBrandByCategoryId/{categoryId}")
+    public Result findBrandByCategoryId(@PathVariable Long categoryId) {
+        List<Brand> brandList = sysCategoryBrandService.findBrandByCategoryId(categoryId);
+        return Result.build(brandList, ResultCodeEnum.SUCCESS);
     }
 }

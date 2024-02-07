@@ -2,8 +2,11 @@ package com.yinxin.spzx.manager.service;
 
 import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.model.dto.product.CategoryBrandDto;
+import com.yinxin.spzx.model.entity.product.Brand;
 import com.yinxin.spzx.model.entity.product.CategoryBrand;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author YinXin
@@ -18,4 +21,6 @@ public interface SysCategoryBrandService {
     void update(CategoryBrand categoryBrand);
 
     void delete(Long id);
+
+    List<Brand> findBrandByCategoryId(Long categoryId);
 }

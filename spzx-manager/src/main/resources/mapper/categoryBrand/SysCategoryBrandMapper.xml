@@ -6,6 +6,8 @@
     <resultMap id="categoryBrandMap" type="com.yinxin.spzx.model.entity.product.CategoryBrand" autoMapping="true">
     </resultMap>
 
+    <resultMap id="brandMap" type="com.yinxin.spzx.model.entity.product.Brand" autoMapping="true"></resultMap>
+
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
         id
@@ -68,6 +70,15 @@
         left join category c on c.id = cb.category_id
         left join brand b on b.id = cb.brand_id
         <include refid="findAllWhere"/>
+        order by cb.id desc
+    </select>
+
+    <select id="findBrandByCategoryId" resultMap="brandMap">
+        select
+            b.*
+        from category_brand cb
+                 left join brand b  on b.id = cb.brand_id
+        where cb.category_id = #{categoryId} and cb.is_deleted = 0
         order by cb.id desc
     </select>
 </mapper>
