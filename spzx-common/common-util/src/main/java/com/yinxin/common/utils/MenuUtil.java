@@ -34,9 +34,6 @@ public class MenuUtil {
         sysMenu.setChildren(new ArrayList<SysMenu>());
         for (SysMenu it : treeNodes) {
             if(sysMenu.getId().longValue() == it.getParentId().longValue()) {
-                //if (sysMenu.getChildren() == null) {
-                //    sysMenu.setChildren(new ArrayList<>());
-                //}
                 sysMenu.getChildren().add(findChildren(it,treeNodes));
             }
         }

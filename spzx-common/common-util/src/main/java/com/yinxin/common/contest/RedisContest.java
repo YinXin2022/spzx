@@ -7,4 +7,5 @@ package com.yinxin.common.contest;
 public class RedisContest {
     public final static String SYS_LOGIN_USER = "sys:login:user:";
     public final static String SYS_LOGIN_VALIDATE_CODE = "sys:login:validate:code:";
+    public final static String CATEGORY_TREE = "category:tree";
 }
