@@ -23,7 +23,6 @@ import java.util.List;
  */
 
 @Tag(name = "首页接口")
-@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/product/index")

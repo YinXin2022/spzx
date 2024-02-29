@@ -19,7 +19,6 @@ import java.util.List;
  * @date 2024-02-28 16:21
  */
 @Tag(name = "分类接口")
-@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/product/category")
