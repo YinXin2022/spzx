@@ -1,6 +1,8 @@
 package com.yinxin.spzx.manager.api;
 
 import com.github.pagehelper.PageInfo;
+import com.yinxin.spzx.log.annotation.Log;
+import com.yinxin.spzx.log.enums.OperatorType;
 import com.yinxin.spzx.manager.service.SysBrandService;
 import com.yinxin.spzx.model.entity.product.Brand;
 import com.yinxin.spzx.model.filter.BrandFilter;
@@ -28,6 +30,7 @@ public class BrandApi {
         return Result.build(sysBrandService.page(pageNum, pageSize, filter), ResultCodeEnum.SUCCESS);
     }
 
+    @Log(title = "创建品牌",businessType = 1,operatorType = OperatorType.MANAGE)
     @Operation(summary = "创建品牌")
     @PostMapping("/create")
     public Result createBy(@RequestBody Brand brand) {

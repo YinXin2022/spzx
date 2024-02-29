@@ -1,5 +1,6 @@
 package com.yinxin.spzx.manager.api;
 
+import com.yinxin.spzx.log.annotation.Log;
 import com.yinxin.spzx.manager.service.OrderInfoService;
 import com.yinxin.spzx.model.dto.order.OrderStatisticsDto;
 import com.yinxin.spzx.model.vo.common.Result;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderInfoApi {
     private final OrderInfoService orderInfoService;
 
+    @Log(title = "获取订单统计信息",businessType = 0)
     @Operation(summary = "获取订单统计信息")
     @GetMapping("/statistics")
     public Result getOrderStatistics(OrderStatisticsDto orderStatisticsDto) {
