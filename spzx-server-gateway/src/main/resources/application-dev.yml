@@ -35,3 +35,7 @@ spring:
           # predicates的值：- 属性名=值1,值2
           predicates:
             - Path=/*/product/**
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/*/user/**
