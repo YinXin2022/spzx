@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.yinxin.common.contest.RedisContest;
 import com.yinxin.common.redis.RedisCache;
-import com.yinxin.common.utils.AuthContextUtil;
+import com.yinxin.common.utils.SysAuthContextUtil;
 import com.yinxin.spzx.model.entity.system.SysUser;
 import com.yinxin.spzx.model.vo.common.Result;
 import com.yinxin.spzx.model.vo.common.ResultCodeEnum;
@@ -40,7 +40,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         SysUser sysUser = redisCache.getCacheObject(RedisContest.SYS_LOGIN_USER + token, SysUser.class);
-        AuthContextUtil.set(sysUser);
+        SysAuthContextUtil.set(sysUser);
 
         redisCache.expire(RedisContest.SYS_LOGIN_USER + token, 30, TimeUnit.MINUTES);
         return true;
@@ -48,7 +48,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        AuthContextUtil.remove();
+        SysAuthContextUtil.remove();
     }
 
     private void responseNoLoginInfo(HttpServletResponse response) {

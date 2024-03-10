@@ -3,7 +3,7 @@ package com.yinxin.spzx.manager.service.impl;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import com.yinxin.common.exception.AppException;
 import com.yinxin.common.utils.AssertUtil;
-import com.yinxin.common.utils.AuthContextUtil;
+import com.yinxin.common.utils.SysAuthContextUtil;
 import com.yinxin.common.utils.MenuUtil;
 import com.yinxin.spzx.manager.mapper.SysMenuMapper;
 import com.yinxin.spzx.manager.mapper.SysRoleMenuMapper;
@@ -86,7 +86,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Override
     public List<SysMenuVo> findUserMenuList() {
-        SysUser sysUser = AuthContextUtil.get();
+        SysUser sysUser = SysAuthContextUtil.get();
         Long userId = sysUser.getId();
 
         List<SysMenu> sysMenuList = sysMenuMapper.selectListByUserId(userId);

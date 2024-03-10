@@ -7,7 +7,7 @@ import com.yinxin.common.contest.RedisContest;
 import com.yinxin.common.exception.AppException;
 import com.yinxin.common.redis.RedisCache;
 import com.yinxin.common.utils.AssertUtil;
-import com.yinxin.common.utils.AuthContextUtil;
+import com.yinxin.common.utils.SysAuthContextUtil;
 import com.yinxin.common.utils.MinIoUtil;
 import com.yinxin.spzx.manager.mapper.SysRoleUserMapper;
 import com.yinxin.spzx.manager.mapper.SysUserMapper;
@@ -56,7 +56,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser getUserInfo(String token) {
-        return AuthContextUtil.get();
+        return SysAuthContextUtil.get();
     }
 
     @Override

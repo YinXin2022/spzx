@@ -1,7 +1,7 @@
 package com.yinxin.spzx.log.utils;
 
 import com.alibaba.fastjson2.JSON;
-import com.yinxin.common.utils.AuthContextUtil;
+import com.yinxin.common.utils.SysAuthContextUtil;
 import com.yinxin.spzx.log.annotation.Log;
 import com.yinxin.spzx.model.entity.system.SysOperLog;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,6 +55,6 @@ public class LogUtil {
                 sysOperLog.setOperParam(params);
             }
         }
-        sysOperLog.setOperName(AuthContextUtil.get().getUserName());
+        sysOperLog.setOperName(SysAuthContextUtil.get().getUserName());
     }
 }
