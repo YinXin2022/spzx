@@ -1,10 +1,9 @@
 package com.yinxin.spzx.product;
 
+import com.yinxin.common.annotation.EnableRedisCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 
 /**
  * @author YinXin
@@ -12,7 +11,7 @@ import org.springframework.context.annotation.FilterType;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(value = "com.yinxin.*", excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.yinxin.common.config.WebMvcConfig"))
+@EnableRedisCache
 public class ProductApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProductApplication.class, args);
