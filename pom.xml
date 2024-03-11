@@ -21,6 +21,7 @@
         <module>spzx-server-gateway</module>
         <module>spzx-service</module>
         <module>spzx-service-client</module>
+        <module>spzx-service-client/service-cart-client</module>
     </modules>
 
     <properties>
