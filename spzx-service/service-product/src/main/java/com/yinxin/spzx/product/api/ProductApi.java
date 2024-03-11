@@ -40,6 +40,13 @@ public class ProductApi {
     @GetMapping("/item/{skuId}")
     public Result<ProductItemVo> item(@Parameter(name = "skuId", description = "商品skuId", required = true) @PathVariable Long skuId) {
         ProductItemVo productItemVo = productService.item(skuId);
-        return Result.build(productItemVo , ResultCodeEnum.SUCCESS);
+        return Result.build(productItemVo, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "获取商品sku信息")
+    @GetMapping("getBySkuId/{skuId}")
+    public ProductSku getBySkuId(@Parameter(name = "skuId", description = "商品skuId", required = true) @PathVariable Long skuId) {
+        ProductSku productSku = productService.getBySkuId(skuId);
+        return productSku;
     }
 }
