@@ -85,6 +85,10 @@ public class RedisCache {
         return redisTemplate.hasKey(key);
     }
 
+    public Boolean hasHashKey(String key, String hKey) {
+        return redisTemplate.opsForHash().hasKey(key, hKey);
+    }
+
     /**
      * 获得缓存的基本对象。
      *
@@ -223,6 +227,16 @@ public class RedisCache {
      */
     public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys) {
         return redisTemplate.opsForHash().multiGet(key, hKeys);
+    }
+
+    /**
+     * 获取Hash中的所有值
+     *
+     * @param key Redis键
+     * @return hValues Hash中的所有值
+     */
+    public <T> List<T> getCacheMapValues(final String key) {
+        return redisTemplate.opsForHash().values(key);
     }
 
     /**
