@@ -12,4 +12,6 @@ import java.util.List;
 @Service
 public interface UserAddressService {
     List<UserAddress> findUserAddressList();
+
+    UserAddress getById(Long id);
 }
