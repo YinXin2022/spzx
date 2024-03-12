@@ -70,4 +70,11 @@ public class CartApi {
         List<CartInfo> cartInfoList = cartService.getAllCkecked() ;
         return cartInfoList;
     }
+
+    @Operation(summary="删除选中的购物车")
+    @GetMapping(value = "/auth/deleteChecked")
+    public Result deleteChecked() {
+        cartService.deleteChecked() ;
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
 }
