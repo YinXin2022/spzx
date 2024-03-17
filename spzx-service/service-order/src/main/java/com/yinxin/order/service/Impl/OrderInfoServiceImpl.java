@@ -29,6 +29,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -183,5 +184,23 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<OrderItem> orderItems = orderItemMapper.findByOrderId(orderInfo.getId());
         orderInfo.setOrderItemList(orderItems);
         return orderInfo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateOrderStatus(String orderNo, Integer payType) {
+        // 更新订单状态
+        OrderInfo orderInfo = orderInfoMapper.findByOrderNo(orderNo);
+        orderInfo.setOrderStatus(1);
+        orderInfo.setPayType(payType);
+        orderInfo.setPaymentTime(new Date());
+        orderInfoMapper.updateById(orderInfo);
+
+        // 记录日志
+        OrderLog orderLog = new OrderLog();
+        orderLog.setOrderId(orderInfo.getId());
+        orderLog.setProcessStatus(1);
+        orderLog.setNote("支付宝支付成功");
+        orderLogMapper.save(orderLog);
     }
 }

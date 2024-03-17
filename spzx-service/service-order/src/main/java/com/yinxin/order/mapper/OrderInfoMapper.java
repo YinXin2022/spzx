@@ -18,4 +18,6 @@ public interface OrderInfoMapper {
     List<OrderInfo> findUserPage(Long userId, Integer orderStatus);
 
     OrderInfo findByOrderNo(String orderNo);
+
+    void updateById(OrderInfo orderInfo);
 }

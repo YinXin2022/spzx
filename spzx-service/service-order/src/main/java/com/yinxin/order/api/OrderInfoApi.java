@@ -61,7 +61,14 @@ public class OrderInfoApi {
     @Operation(summary = "获取订单信息")
     @GetMapping("/auth/getOrderInfoByOrderNo/{orderNo}")
     public Result<OrderInfo> getOrderInfoByOrderNo(@PathVariable String orderNo) {
-        OrderInfo orderInfo = orderInfoService.getByOrderNo(orderNo) ;
+        OrderInfo orderInfo = orderInfoService.getByOrderNo(orderNo);
         return Result.build(orderInfo, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "获取订单分页列表")
+    @GetMapping("/auth/updateOrderStatusPayed/{orderNo}/{payType}")
+    public Result updateOrderStatus(@PathVariable String orderNo, @PathVariable Integer payType) {
+        orderInfoService.updateOrderStatus(orderNo, payType);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }
