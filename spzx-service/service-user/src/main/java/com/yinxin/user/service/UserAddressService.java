@@ -14,4 +14,6 @@ public interface UserAddressService {
     List<UserAddress> findUserAddressList();
 
     UserAddress getById(Long id);
+
+    void create(UserAddress userAddress);
 }

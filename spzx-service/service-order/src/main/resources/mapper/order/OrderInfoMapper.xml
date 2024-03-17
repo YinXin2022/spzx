@@ -62,7 +62,8 @@
                 #{cancelTime},
                 #{cancelReason})
     </insert>
-    <select id="findById" resultMap="orderInfoMap">
+
+    <select id="findByOrderId" resultMap="orderInfoMap">
         select
         <include refid="columns"/>
         from order_info

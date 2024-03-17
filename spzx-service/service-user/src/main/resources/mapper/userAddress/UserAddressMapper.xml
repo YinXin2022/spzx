@@ -13,6 +13,14 @@
         ,user_id,name,phone,tag_name,province_code,city_code,district_code,address,full_address,is_default,create_time,update_time,is_deleted
     </sql>
 
+    <insert id="save">
+        insert into user_address
+        (user_id, name, phone, tag_name, province_code, city_code, district_code, address, full_address, is_default,
+         is_deleted)
+        values (#{userId}, #{name}, #{phone}, #{tagName}, #{provinceCode}, #{cityCode}, #{districtCode},
+                #{address}, #{fullAddress}, #{isDefault}, 0)
+    </insert>
+
     <select id="findByUserId" resultMap="userAddressMap">
         select
         <include refid="columns"/>

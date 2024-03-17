@@ -30,4 +30,12 @@ public class UserAddressServiceImpl implements UserAddressService {
     public UserAddress getById(Long id) {
         return userAddressMapper.findById(id);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void create(UserAddress userAddress) {
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        userAddress.setUserId(userId);
+        userAddressMapper.save(userAddress);
+    }
 }

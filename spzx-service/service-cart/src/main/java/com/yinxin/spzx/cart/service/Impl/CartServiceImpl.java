@@ -136,7 +136,7 @@ public class CartServiceImpl implements CartService {
         if (!CollectionUtils.isEmpty(cartItems)) {
             cartItems.stream().map(cartInfoJSON -> JSON.parseObject(cartInfoJSON.toString(), CartInfo.class))
                     .filter(cartInfo -> cartInfo.getIsChecked() == 1)
-                    .forEach(cartInfo -> redisCache.deleteCacheMapValue(cartKey, cartInfo.getId().toString()));
+                    .forEach(cartInfo -> redisCache.deleteCacheMapValue(cartKey, cartInfo.getSkuId().toString()));
         }
     }
 }
