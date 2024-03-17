@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yinxin.spzx.model.dto.h5.ProductSkuDto;
+import com.yinxin.spzx.model.dto.product.SkuSaleDto;
 import com.yinxin.spzx.model.entity.product.Product;
 import com.yinxin.spzx.model.entity.product.ProductDetails;
 import com.yinxin.spzx.model.entity.product.ProductSku;
@@ -15,6 +16,7 @@ import com.yinxin.spzx.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
         //同一个商品下面的sku信息列表
         List<ProductSku> productSkuList = productSkuMapper.findByProductId(productSku.getProductId());
         //建立sku规格与skuId对应关系
-        Map<String,Object> skuSpecValueMap = new HashMap<>();
+        Map<String, Object> skuSpecValueMap = new HashMap<>();
         productSkuList.forEach(item -> {
             skuSpecValueMap.put(item.getSkuSpec(), item.getId());
         });
@@ -77,5 +79,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductSku getBySkuId(Long skuId) {
         return productSkuMapper.getById(skuId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateSkuSaleNum(List<SkuSaleDto> skuSaleDtoList) {
+        if (!CollectionUtils.isEmpty(skuSaleDtoList)) {
+            for (SkuSaleDto skuSaleDto : skuSaleDtoList) {
+                productSkuMapper.updateSale(skuSaleDto.getSkuId(), skuSaleDto.getNum());
+            }
+        }
+        return true;
     }
 }
