@@ -176,4 +176,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return new PageInfo<>(orderInfoList);
     }
+
+    @Override
+    public OrderInfo getByOrderNo(String orderNo) {
+        OrderInfo orderInfo = orderInfoMapper.findByOrderNo(orderNo);
+        List<OrderItem> orderItems = orderItemMapper.findByOrderId(orderInfo.getId());
+        orderInfo.setOrderItemList(orderItems);
+        return orderInfo;
+    }
 }

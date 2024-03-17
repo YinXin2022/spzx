@@ -16,4 +16,6 @@ public interface OrderInfoMapper {
     OrderInfo findByOrderId(Long orderId);
 
     List<OrderInfo> findUserPage(Long userId, Integer orderStatus);
+
+    OrderInfo findByOrderNo(String orderNo);
 }
